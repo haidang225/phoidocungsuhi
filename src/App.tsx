@@ -28,6 +28,7 @@ import {
   savePersistentCostumes,
   savePersistentLookbooks,
 } from './utils/storage';
+import { DEFAULT_OUTFITS, DEFAULT_COSTUMES, DEFAULT_LOOKBOOKS } from './data/defaultData';
 
 const STORAGE_KEY_COSTUMES = 'vietphuc_costumes_v1';
 const STORAGE_KEY_WARDROBE = 'vietphuc_wardrobe_v1';
@@ -49,12 +50,19 @@ const readStorageArray = <T,>(key: string): T[] => {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<NavigationTab>('archive');
-  const [outfits, setOutfits] = useState<CustomOutfit[]>(() => readStorageArray(STORAGE_KEY_OUTFITS));
+  const [outfits, setOutfits] = useState<CustomOutfit[]>(() => {
+    const saved = readStorageArray<CustomOutfit>(STORAGE_KEY_OUTFITS);
+    return saved && saved.length > 0 ? saved : DEFAULT_OUTFITS;
+  });
   const [selectedOutfitId, setSelectedOutfitId] = useState<string | null>(null);
-  const [costumes, setCostumes] = useState<CostumeItem[]>(() => readStorageArray(STORAGE_KEY_COSTUMES));
-  const [lookbooks, setLookbooks] = useState<LookbookItem[]>(() =>
-    readStorageArray<LookbookItem>(STORAGE_KEY_LOOKBOOKS).filter((item) => !item.id.startsWith('preset_'))
-  );
+  const [costumes, setCostumes] = useState<CostumeItem[]>(() => {
+    const saved = readStorageArray<CostumeItem>(STORAGE_KEY_COSTUMES);
+    return saved && saved.length > 0 ? saved : DEFAULT_COSTUMES;
+  });
+  const [lookbooks, setLookbooks] = useState<LookbookItem[]>(() => {
+    const saved = readStorageArray<LookbookItem>(STORAGE_KEY_LOOKBOOKS).filter((item) => !item.id.startsWith('preset_'));
+    return saved && saved.length > 0 ? saved : DEFAULT_LOOKBOOKS;
+  });
   const [wardrobeIds, setWardrobeIds] = useState<string[]>(() => readStorageArray(STORAGE_KEY_WARDROBE));
 
   const [selectedItemForModal, setSelectedItemForModal] = useState<CostumeItem | null>(null);
@@ -81,29 +89,39 @@ export default function App() {
       if (Array.isArray(data.costumes) && data.costumes.length > 0) {
         const valid = data.costumes.filter((c: any) => c && typeof c === 'object' && c.id);
         setCostumes((prev) => {
-          if (prev.length === valid.length && prev.every((p, i) => p.id === valid[i]?.id)) return prev;
-          savePersistentCostumes(valid);
-          return valid;
+          const map = new Map<string, CostumeItem>();
+          DEFAULT_COSTUMES.forEach((c) => map.set(c.id, c));
+          prev.forEach((c) => map.set(c.id, c));
+          valid.forEach((c: any) => map.set(c.id, c));
+          const merged = Array.from(map.values());
+          savePersistentCostumes(merged);
+          return merged;
         });
       }
 
       if (Array.isArray(data.lookbooks)) {
         const valid = data.lookbooks.filter((l: any) => l && typeof l === 'object' && l.id);
         setLookbooks((prev) => {
-          if (prev.length === valid.length && prev.every((p, i) => p.id === valid[i]?.id)) return prev;
-          savePersistentLookbooks(valid);
-          return valid;
+          const map = new Map<string, LookbookItem>();
+          DEFAULT_LOOKBOOKS.forEach((l) => map.set(l.id, l));
+          prev.forEach((l) => map.set(l.id, l));
+          valid.forEach((l: any) => map.set(l.id, l));
+          const merged = Array.from(map.values());
+          savePersistentLookbooks(merged);
+          return merged;
         });
       }
 
       if (Array.isArray(data.outfits) && data.outfits.length > 0) {
         const valid = data.outfits.filter((o: any) => o && typeof o === 'object' && o.id);
         setOutfits((prev) => {
-          if (prev.length === valid.length && prev.every((p, i) => p.id === valid[i]?.id && p.components?.length === valid[i]?.components?.length)) {
-            return prev;
-          }
-          savePersistentOutfits(valid);
-          return valid;
+          const map = new Map<string, CustomOutfit>();
+          DEFAULT_OUTFITS.forEach((o) => map.set(o.id, o));
+          prev.forEach((o) => map.set(o.id, o));
+          valid.forEach((o: any) => map.set(o.id, o));
+          const merged = Array.from(map.values());
+          savePersistentOutfits(merged);
+          return merged;
         });
       }
     } catch (err) {

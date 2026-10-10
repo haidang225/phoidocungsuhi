@@ -30,17 +30,36 @@ export const ArchiveCatalog: React.FC<ArchiveCatalogProps> = ({
     setOutfitToDelete(null);
   };
 
-  // Tìm kiếm theo tên bộ trang phục, tác giả hoặc tên thành phần
+  // Tìm kiếm thông minh: hỗ trợ không dấu, phát hiện biến thể chính tả (Song Như / Song Ngư, Hạ Nguyệt / Hạc Nguyệt)
+  const normalize = (str: string) =>
+    (str || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd')
+      .replace(/song\s*nhu/g, 'song ngu')
+      .replace(/ha\s*nguyet/g, 'hac nguyet')
+      .trim();
+
   const filteredOutfits = outfits.filter((outfit) => {
     if (!outfit) return false;
     if (!searchQuery.trim()) return true;
-    const q = searchQuery.toLowerCase();
-    const inName = (outfit.name || '').toLowerCase().includes(q);
-    const inCreator = (outfit.creatorName || '').toLowerCase().includes(q);
+    const rawQ = searchQuery.toLowerCase().trim();
+    const normQ = normalize(searchQuery);
+
+    const checkMatch = (target: string) => {
+      if (!target) return false;
+      const lower = target.toLowerCase();
+      const normTarget = normalize(target);
+      return lower.includes(rawQ) || normTarget.includes(normQ);
+    };
+
+    const inName = checkMatch(outfit.name);
+    const inCreator = checkMatch(outfit.creatorName || '');
     const inComponents = (outfit.components || []).some((c) =>
-      (c?.name || '').toLowerCase().includes(q)
+      checkMatch(c?.name || '')
     );
-    const inIntro = (outfit.introduction || '').toLowerCase().includes(q);
+    const inIntro = checkMatch(outfit.introduction || '');
     return inName || inCreator || inComponents || inIntro;
   });
 

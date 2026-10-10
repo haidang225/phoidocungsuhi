@@ -911,6 +911,246 @@
         "Chụp Ảnh Kỷ Yếu"
       ],
       "creatorName": "Queenie"
+    },
+    {
+      "id": "item_1791647705282_pnd5c",
+      "name": "Sen Ngọc",
+      "category": "bo_trang_phuc",
+      "era": "Triều Nguyễn",
+      "region": "Cố đô Huế",
+      "gender": "Nữ",
+      "heroColor": "#457B9D",
+      "colorLabel": "Lam ngọc",
+      "availableColors": [
+        "#457B9D"
+      ],
+      "material": "Lụa tơ tằm",
+      "originStory": "Trang phục Sen Ngọc thuộc danh mục Bộ Trang Phục, mang sắc Lam ngọc, sáng tạo bởi Queenie.",
+      "culturalMeaning": "Trọn bộ trang phục cổ truyền hoàn chỉnh tôn vinh vẻ đẹp di sản dân tộc.",
+      "remixTips": "Phối hợp hài hòa cùng các lớp trang phục trong phòng trưng bày.",
+      "culturalAdvisory": "Giữ phom dáng thanh thoát, đứng áo và chỉn chu.",
+      "imageUrl": "/uploads/comp_f6f288312d13.webp",
+      "imageUrls": [
+        "/uploads/comp_f6f288312d13.webp"
+      ],
+      "suitableOccasions": [
+        "Dạo Phố & Cafe",
+        "Lễ Tốt Nghiệp",
+        "Tiệc Cưới & Dự Lễ",
+        "Chụp Ảnh Kỷ Yếu"
+      ],
+      "isCustom": true,
+      "creatorName": "Queenie"
+    },
+    {
+      "id": "item_1791647736820_6dlpm",
+      "name": "Sen Ngọc",
+      "category": "ao_ngoai",
+      "era": "Triều Nguyễn",
+      "region": "Cố đô Huế",
+      "gender": "Nữ",
+      "heroColor": "#457B9D",
+      "colorLabel": "Lam ngọc",
+      "availableColors": [
+        "#457B9D"
+      ],
+      "material": "Lụa tơ tằm",
+      "originStory": "Trang phục Sen Ngọc thuộc danh mục Áo Chính (Mặt Trước), mang sắc Lam ngọc, sáng tạo bởi Queenie.",
+      "culturalMeaning": "Thể hiện vẻ đẹp trang nhã, đoan chính và niềm tự hào di sản truyền thống Việt Nam.",
+      "remixTips": "Phối cùng quần lãnh Mỹ A hoặc chân váy, kết hợp phụ kiện đương đại.",
+      "culturalAdvisory": "Giữ phom dáng thanh thoát, đứng áo và chỉn chu.",
+      "imageUrl": "/uploads/comp_b93f07cbbf2b.webp",
+      "imageUrls": [
+        "/uploads/comp_b93f07cbbf2b.webp"
+      ],
+      "suitableOccasions": [
+        "Dạo Phố & Cafe",
+        "Lễ Tốt Nghiệp",
+        "Tiệc Cưới & Dự Lễ",
+        "Chụp Ảnh Kỷ Yếu"
+      ],
+      "isCustom": true,
+      "creatorName": "Queenie"
+    },
+    {
+      "id": "item_1791647750195_r78n2",
+      "name": "Sen Ngọc",
+      "category": "ao_ngoai_sau",
+      "era": "Triều Nguyễn",
+      "region": "Cố đô Huế",
+      "gender": "Nữ",
+      "heroColor": "#457B9D",
+      "colorLabel": "Lam ngọc",
+      "availableColors": [
+        "#457B9D"
+      ],
+      "material": "Lụa tơ tằm",
+      "originStory": "Trang phục Sen Ngọc thuộc danh mục Áo Chính (Mặt Sau), mang sắc Lam ngọc, sáng tạo bởi Queenie.",
+      "culturalMeaning": "Mặt sau áo ngoài thể hiện sống áo ngay thẳng, nếp vải buông suông trang nghiêm và thanh thoát.",
+      "remixTips": "Đồng điệu màu sắc và chất liệu cùng mặt trước của áo ngoài.",
+      "culturalAdvisory": "Giữ phom lưng áo phẳng phiu, sống áo thẳng thớm.",
+      "imageUrl": "/uploads/comp_0fa4bffa7012.webp",
+      "imageUrls": [
+        "/uploads/comp_0fa4bffa7012.webp"
+      ],
+      "suitableOccasions": [
+        "Dạo Phố & Cafe",
+        "Lễ Tốt Nghiệp",
+        "Tiệc Cưới & Dự Lễ",
+        "Chụp Ảnh Kỷ Yếu"
+      ],
+      "isCustom": true,
+      "creatorName": "Queenie"
+    },
+    {
+      "id": "item_1791647772489_z22gn",
+      "name": "Sen Ngọc",
+      "category": "quan_vay",
+      "era": "Triều Nguyễn",
+      "region": "Nam Bộ / Bắc Bộ",
+      "gender": "Nữ",
+      "heroColor": "#D4AF37",
+      "colorLabel": "Vàng hoàng yến / Kim",
+      "availableColors": [
+        "#D4AF37"
+      ],
+      "material": "Lụa tơ tằm",
+      "originStory": "Trang phục Sen Ngọc thuộc danh mục Thân Dưới, mang sắc Vàng hoàng yến / Kim, sáng tạo bởi Queenie.",
+      "culturalMeaning": "Thân dưới suông rộng thoải mái, tượng trưng cho sự mềm mại, nền nã.",
+      "remixTips": "Ống suông phóng khoáng dễ dàng phối với giày sneaker trắng hoặc guốc mộc.",
+      "culturalAdvisory": "Độ dài chạm mắt cá chân, ống quần thẳng tắp trang nhã.",
+      "imageUrl": "/uploads/comp_9e2e084de914.webp",
+      "imageUrls": [
+        "/uploads/comp_9e2e084de914.webp"
+      ],
+      "suitableOccasions": [
+        "Dạo Phố & Cafe",
+        "Lễ Tốt Nghiệp",
+        "Tiệc Cưới & Dự Lễ",
+        "Chụp Ảnh Kỷ Yếu"
+      ],
+      "isCustom": true,
+      "creatorName": "Queenie"
+    },
+    {
+      "id": "item_1791647788191_o39ps",
+      "name": "Sen Ngọc",
+      "category": "giay_dep",
+      "era": "Cảm hứng di sản Việt Nam",
+      "region": "Việt Nam",
+      "gender": "Nữ",
+      "heroColor": "#457B9D",
+      "colorLabel": "Lam ngọc",
+      "availableColors": [
+        "#457B9D"
+      ],
+      "material": "Hài thêu nhung",
+      "originStory": "Trang phục Sen Ngọc thuộc danh mục Giày Dép, mang sắc Lam ngọc, sáng tạo bởi Queenie.",
+      "culturalMeaning": "Bước đi khoan thai, vững vàng và thanh nhã của người xưa.",
+      "remixTips": "Có thể linh hoạt dùng hài thêu cổ truyền hoặc giày modern minimalist.",
+      "culturalAdvisory": "Chọn phom dáng êm ái, màu sắc ăn nhập với tổng thể trang phục.",
+      "imageUrl": "/uploads/comp_979f17844a1c.webp",
+      "imageUrls": [
+        "/uploads/comp_979f17844a1c.webp"
+      ],
+      "suitableOccasions": [
+        "Dạo Phố & Cafe",
+        "Lễ Tốt Nghiệp",
+        "Tiệc Cưới & Dự Lễ",
+        "Chụp Ảnh Kỷ Yếu"
+      ],
+      "isCustom": true,
+      "creatorName": "Queenie"
+    },
+    {
+      "id": "item_1791647884211_704qa",
+      "name": "Sen Ngọc",
+      "category": "phu_kien",
+      "era": "Cảm hứng di sản Việt Nam",
+      "region": "Việt Nam",
+      "gender": "Nữ",
+      "heroColor": "#E07A5F",
+      "colorLabel": "Hồng cánh sen",
+      "availableColors": [
+        "#E07A5F"
+      ],
+      "material": "Gấm",
+      "originStory": "Trang phục Sen Ngọc thuộc danh mục Phụ Kiện, mang sắc Hồng cánh sen, sáng tạo bởi Queenie.",
+      "culturalMeaning": "Điểm xuyết vẻ tinh tế, quý phái và cốt cách người mặc.",
+      "remixTips": "Túi tote lụa, kính retro hoặc khăn vấn tạo điểm nhấn di sản.",
+      "culturalAdvisory": "Phối tiết chế tinh tế, tránh rườm rà làm lu mờ trang phục chính.",
+      "imageUrl": "/uploads/comp_d9f34eeb006e.webp",
+      "imageUrls": [
+        "/uploads/comp_d9f34eeb006e.webp"
+      ],
+      "suitableOccasions": [
+        "Dạo Phố & Cafe",
+        "Lễ Tốt Nghiệp",
+        "Tiệc Cưới & Dự Lễ",
+        "Chụp Ảnh Kỷ Yếu"
+      ],
+      "isCustom": true,
+      "creatorName": "Queenie"
+    },
+    {
+      "id": "item_1791647862315_f4twx",
+      "name": "Sen Ngọc",
+      "category": "phu_kien",
+      "era": "Cảm hứng di sản Việt Nam",
+      "region": "Việt Nam",
+      "gender": "Nữ",
+      "heroColor": "#D4AF37",
+      "colorLabel": "Vàng hoàng yến / Kim",
+      "availableColors": [
+        "#D4AF37"
+      ],
+      "material": "Vàng chạm khắc, ngọc trai",
+      "originStory": "Trang phục Sen Ngọc thuộc danh mục Phụ Kiện, mang sắc Vàng hoàng yến / Kim, sáng tạo bởi Queenie.",
+      "culturalMeaning": "Điểm xuyết vẻ tinh tế, quý phái và cốt cách người mặc.",
+      "remixTips": "Túi tote lụa, kính retro hoặc khăn vấn tạo điểm nhấn di sản.",
+      "culturalAdvisory": "Phối tiết chế tinh tế, tránh rườm rà làm lu mờ trang phục chính.",
+      "imageUrl": "/uploads/comp_ad121bd19c0b.webp",
+      "imageUrls": [
+        "/uploads/comp_ad121bd19c0b.webp"
+      ],
+      "suitableOccasions": [
+        "Dạo Phố & Cafe",
+        "Lễ Tốt Nghiệp",
+        "Tiệc Cưới & Dự Lễ",
+        "Chụp Ảnh Kỷ Yếu"
+      ],
+      "isCustom": true,
+      "creatorName": "Queenie"
+    },
+    {
+      "id": "item_1791647813703_hyldh",
+      "name": "Sen Ngọc",
+      "category": "phu_kien",
+      "era": "Cảm hứng di sản Việt Nam",
+      "region": "Việt Nam",
+      "gender": "Nữ",
+      "heroColor": "#2D6A4F",
+      "colorLabel": "Xanh rêu / Phỉ thúy",
+      "availableColors": [
+        "#2D6A4F"
+      ],
+      "material": "Bạc chạm khắc, ngọc bích",
+      "originStory": "Trang phục Sen Ngọc thuộc danh mục Phụ Kiện, mang sắc Xanh rêu / Phỉ thúy, sáng tạo bởi Queenie.",
+      "culturalMeaning": "Điểm xuyết vẻ tinh tế, quý phái và cốt cách người mặc.",
+      "remixTips": "Túi tote lụa, kính retro hoặc khăn vấn tạo điểm nhấn di sản.",
+      "culturalAdvisory": "Phối tiết chế tinh tế, tránh rườm rà làm lu mờ trang phục chính.",
+      "imageUrl": "/uploads/comp_8f3561acdb4d.webp",
+      "imageUrls": [
+        "/uploads/comp_8f3561acdb4d.webp"
+      ],
+      "suitableOccasions": [
+        "Dạo Phố & Cafe",
+        "Lễ Tốt Nghiệp",
+        "Tiệc Cưới & Dự Lễ",
+        "Chụp Ảnh Kỷ Yếu"
+      ],
+      "isCustom": true,
+      "creatorName": "Queenie"
     }
   ],
   "lookbooks": [

@@ -6,6 +6,7 @@
 
 import { CostumeItem, CustomOutfit, LookbookItem } from '../types/vietphuc';
 import { safeSetLocalStorage } from './imageCompressor';
+import { DEFAULT_OUTFITS, DEFAULT_COSTUMES, DEFAULT_LOOKBOOKS } from '../data/defaultData';
 
 const DB_NAME = 'VietPhucHeritageDB_v1';
 const DB_VERSION = 1;
@@ -139,6 +140,12 @@ export async function loadPersistentOutfits(): Promise<CustomOutfit[]> {
     }
   }
 
+  // 3. Fallback to Authoritative Defaults (Guarantees Song Ngư Triều Ngọc, Hạc Nguyệt on any new machine)
+  if (Array.isArray(DEFAULT_OUTFITS) && DEFAULT_OUTFITS.length > 0) {
+    saveAllToStore(STORE_OUTFITS, DEFAULT_OUTFITS);
+    return DEFAULT_OUTFITS;
+  }
+
   return [];
 }
 
@@ -149,6 +156,11 @@ export async function savePersistentOutfits(outfits: CustomOutfit[]): Promise<vo
         components: Array.isArray(o?.components) ? o.components : [],
       }))
     : [];
+
+  // Protect against race conditions wiping store on initial render
+  if (safeOutfits.length === 0 && DEFAULT_OUTFITS.length > 0) {
+    return;
+  }
 
   // 1. Save to IndexedDB (authoritative and unbounded)
   await saveAllToStore(STORE_OUTFITS, safeOutfits);
@@ -191,10 +203,18 @@ export async function loadPersistentCostumes(): Promise<CostumeItem[]> {
     }
   }
 
+  if (Array.isArray(DEFAULT_COSTUMES) && DEFAULT_COSTUMES.length > 0) {
+    saveAllToStore(STORE_COSTUMES, DEFAULT_COSTUMES);
+    return DEFAULT_COSTUMES;
+  }
+
   return [];
 }
 
 export async function savePersistentCostumes(costumes: CostumeItem[]): Promise<void> {
+  if (!Array.isArray(costumes) || (costumes.length === 0 && DEFAULT_COSTUMES.length > 0)) {
+    return;
+  }
   await saveAllToStore(STORE_COSTUMES, costumes);
 
   safeSetLocalStorage(STORAGE_KEY_COSTUMES, costumes, (items) =>
@@ -227,6 +247,11 @@ export async function loadPersistentLookbooks(): Promise<LookbookItem[]> {
     } catch {
       // Ignore
     }
+  }
+
+  if (Array.isArray(DEFAULT_LOOKBOOKS) && DEFAULT_LOOKBOOKS.length > 0) {
+    saveAllToStore(STORE_LOOKBOOKS, DEFAULT_LOOKBOOKS);
+    return DEFAULT_LOOKBOOKS;
   }
 
   return [];

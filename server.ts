@@ -110,28 +110,72 @@ function processLookbookImages(lookbook: any) {
   return lookbook;
 }
 
-// Shared Dataset file persistence (local fallback cache)
+// Shared Dataset file persistence (local fallback cache & seed)
 const DATA_DIR = path.resolve(__dirname, 'data');
 const DATA_FILE = path.resolve(DATA_DIR, 'shared_data.json');
+const SEED_FILE = path.resolve(DATA_DIR, 'seed_data.json');
 
 function loadSharedData() {
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
     }
-    if (fs.existsSync(DATA_FILE)) {
-      const content = fs.readFileSync(DATA_FILE, 'utf-8');
-      const parsed = JSON.parse(content);
-      const rawCostumes = Array.isArray(parsed.costumes) ? parsed.costumes : [];
-      const rawLookbooks = Array.isArray(parsed.lookbooks) ? parsed.lookbooks : [];
-      const rawOutfits = Array.isArray(parsed.outfits) ? parsed.outfits : [];
 
-      const costumes = rawCostumes.map(processCostumeImages);
-      const lookbooks = rawLookbooks.map(processLookbookImages);
-      const outfits = rawOutfits.map(processOutfitImages);
-
-      return { costumes, lookbooks, outfits };
+    let seed: any = { costumes: [], lookbooks: [], outfits: [] };
+    if (fs.existsSync(SEED_FILE)) {
+      try {
+        seed = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+      } catch (err) {
+        console.warn('Could not read seed_data.json:', err);
+      }
     }
+
+    let parsed: any = { costumes: [], lookbooks: [], outfits: [] };
+    if (fs.existsSync(DATA_FILE)) {
+      try {
+        parsed = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+      } catch (err) {
+        console.warn('Could not read shared_data.json:', err);
+      }
+    }
+
+    // Merge outfits: ensure all seed outfits (Song Ngư Triều Ngọc, Hạc Nguyệt, Sen Ngọc, Vân Hải Giao Lĩnh) exist
+    const outfitMap = new Map<string, any>();
+    (Array.isArray(seed.outfits) ? seed.outfits : []).forEach((o: any) => {
+      if (o && o.id) outfitMap.set(o.id, o);
+    });
+    (Array.isArray(parsed.outfits) ? parsed.outfits : []).forEach((o: any) => {
+      if (o && o.id) outfitMap.set(o.id, o);
+    });
+
+    // Merge costumes
+    const costumeMap = new Map<string, any>();
+    (Array.isArray(seed.costumes) ? seed.costumes : []).forEach((c: any) => {
+      if (c && c.id) costumeMap.set(c.id, c);
+    });
+    (Array.isArray(parsed.costumes) ? parsed.costumes : []).forEach((c: any) => {
+      if (c && c.id) costumeMap.set(c.id, c);
+    });
+
+    // Merge lookbooks
+    const lookbookMap = new Map<string, any>();
+    (Array.isArray(seed.lookbooks) ? seed.lookbooks : []).forEach((l: any) => {
+      if (l && l.id) lookbookMap.set(l.id, l);
+    });
+    (Array.isArray(parsed.lookbooks) ? parsed.lookbooks : []).forEach((l: any) => {
+      if (l && l.id) lookbookMap.set(l.id, l);
+    });
+
+    const costumes = Array.from(costumeMap.values()).map(processCostumeImages);
+    const lookbooks = Array.from(lookbookMap.values()).map(processLookbookImages);
+    const outfits = Array.from(outfitMap.values()).map(processOutfitImages);
+
+    const merged = { costumes, lookbooks, outfits };
+    if (!fs.existsSync(DATA_FILE) || outfits.length > (parsed.outfits || []).length) {
+      fs.writeFileSync(DATA_FILE, JSON.stringify(merged, null, 2), 'utf-8');
+    }
+
+    return merged;
   } catch (err) {
     console.error('Error loading shared data:', err);
   }
@@ -154,18 +198,27 @@ function saveSharedData() {
   }
 }
 
-// API: Get all shared costumes, lookbooks, and outfits (prioritizing PostgreSQL Cloud SQL)
+// API: Get all shared costumes, lookbooks, and outfits with auto-seed and bidirectional merge
 app.get('/api/data', async (req, res) => {
   try {
     let dbOutfits: any[] = [];
     let dbCostumes: any[] = [];
-    let isDbOutfitsSuccess = false;
-    let isDbCostumesSuccess = false;
 
     if (isDbConfigured()) {
       try {
         dbOutfits = await getAllInvoices();
-        isDbOutfitsSuccess = true;
+        // Auto-seed missing outfits into PostgreSQL to prevent data loss
+        if (Array.isArray(sharedData.outfits) && sharedData.outfits.length > 0) {
+          const dbOutfitIds = new Set(dbOutfits.map((o: any) => o.id));
+          const missingInOutfits = sharedData.outfits.filter((o: any) => o && o.id && !dbOutfitIds.has(o.id));
+          if (missingInOutfits.length > 0) {
+            console.log(`Auto-seeding ${missingInOutfits.length} outfits into PostgreSQL...`);
+            for (const o of missingInOutfits) {
+              await upsertInvoice(o).catch((err: any) => console.warn('Auto-seed outfit warning:', err?.message || err));
+              dbOutfits.push(o);
+            }
+          }
+        }
       } catch (e) {
         console.warn('Could not query invoices table from PostgreSQL:', e);
         dbOutfits = sharedData.outfits;
@@ -173,7 +226,17 @@ app.get('/api/data', async (req, res) => {
 
       try {
         dbCostumes = await getAllCostumes();
-        isDbCostumesSuccess = true;
+        if (Array.isArray(sharedData.costumes) && sharedData.costumes.length > 0) {
+          const dbCostumeIds = new Set(dbCostumes.map((c: any) => c.id));
+          const missingInCostumes = sharedData.costumes.filter((c: any) => c && c.id && !dbCostumeIds.has(c.id));
+          if (missingInCostumes.length > 0) {
+            console.log(`Auto-seeding ${missingInCostumes.length} costumes into PostgreSQL...`);
+            for (const c of missingInCostumes) {
+              await upsertCostume(c).catch((err: any) => console.warn('Auto-seed costume warning:', err?.message || err));
+              dbCostumes.push(c);
+            }
+          }
+        }
       } catch (e) {
         console.warn('Could not query costumes table from PostgreSQL:', e);
         dbCostumes = sharedData.costumes;
@@ -183,24 +246,27 @@ app.get('/api/data', async (req, res) => {
       dbCostumes = sharedData.costumes;
     }
 
-    dbOutfits = (dbOutfits || []).map(processOutfitImages);
-    dbCostumes = (dbCostumes || []).map(processCostumeImages);
+    // Merge DB and sharedData to NEVER drop or lose any outfits
+    const finalOutfitsMap = new Map<string, any>();
+    (sharedData.outfits || []).forEach((o: any) => { if (o && o.id) finalOutfitsMap.set(o.id, o); });
+    (dbOutfits || []).forEach((o: any) => { if (o && o.id) finalOutfitsMap.set(o.id, o); });
 
-    if (isDbOutfitsSuccess) {
-      sharedData.outfits = dbOutfits;
-    }
-    if (isDbCostumesSuccess) {
-      sharedData.costumes = dbCostumes;
-    }
-    if (isDbOutfitsSuccess || isDbCostumesSuccess) {
-      saveSharedData();
-    }
+    const finalCostumesMap = new Map<string, any>();
+    (sharedData.costumes || []).forEach((c: any) => { if (c && c.id) finalCostumesMap.set(c.id, c); });
+    (dbCostumes || []).forEach((c: any) => { if (c && c.id) finalCostumesMap.set(c.id, c); });
+
+    const resolvedOutfits = Array.from(finalOutfitsMap.values()).map(processOutfitImages);
+    const resolvedCostumes = Array.from(finalCostumesMap.values()).map(processCostumeImages);
+
+    sharedData.outfits = resolvedOutfits;
+    sharedData.costumes = resolvedCostumes;
+    saveSharedData();
 
     res.json({
-      costumes: dbCostumes,
+      costumes: resolvedCostumes,
       lookbooks: sharedData.lookbooks,
-      outfits: dbOutfits,
-      invoices: dbOutfits,
+      outfits: resolvedOutfits,
+      invoices: resolvedOutfits,
       timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
