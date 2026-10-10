@@ -120,11 +120,67 @@ async function withDbRetry<T>(operation: () => Promise<T>): Promise<T> {
   }
 }
 
+// Auto-create and ensure PostgreSQL tables exist if DB is configured
+let _tablesEnsured = false;
+export async function ensureDatabaseTables(): Promise<void> {
+  if (!isDbConfigured() || _tablesEnsured) return;
+  try {
+    const pool = getPool();
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS invoices (
+        id text PRIMARY KEY,
+        name text NOT NULL,
+        creator_name text,
+        gender text,
+        image_url text,
+        image_urls jsonb,
+        hero_color text,
+        color_label text,
+        material text,
+        era text,
+        region text,
+        introduction text,
+        occasion text,
+        components jsonb,
+        created_at timestamp DEFAULT now(),
+        updated_at timestamp DEFAULT now()
+      );
+
+      CREATE TABLE IF NOT EXISTS costumes (
+        id text PRIMARY KEY,
+        name text NOT NULL,
+        category text NOT NULL,
+        era text,
+        region text,
+        gender text,
+        hero_color text,
+        color_label text,
+        secondary_color text,
+        material text,
+        origin_story text,
+        cultural_meaning text,
+        remix_tips text,
+        cultural_advisory text,
+        image_url text,
+        image_urls jsonb,
+        accent_pattern text,
+        suitable_occasions jsonb,
+        creator_name text,
+        created_at timestamp DEFAULT now()
+      );
+    `);
+    _tablesEnsured = true;
+  } catch (err: any) {
+    console.warn('PostgreSQL table check / initialization notice:', err?.message || err);
+  }
+}
+
 // Invoices (Bộ trang phục / Custom Outfits) Database Helpers
 export async function getAllInvoices() {
   if (!isDbConfigured()) {
     return [];
   }
+  await ensureDatabaseTables();
   try {
     return await withDbRetry(async () => {
       const currentDb = getDb();
@@ -159,6 +215,7 @@ export async function upsertInvoice(outfit: any) {
   if (!isDbConfigured()) {
     return outfit;
   }
+  await ensureDatabaseTables();
   try {
     return await withDbRetry(async () => {
       const currentDb = getDb();
@@ -247,6 +304,7 @@ export async function getAllCostumes() {
   if (!isDbConfigured()) {
     return [];
   }
+  await ensureDatabaseTables();
   try {
     return await withDbRetry(async () => {
       const currentDb = getDb();
@@ -285,6 +343,7 @@ export async function upsertCostume(item: any) {
   if (!isDbConfigured()) {
     return item;
   }
+  await ensureDatabaseTables();
   try {
     return await withDbRetry(async () => {
       const currentDb = getDb();

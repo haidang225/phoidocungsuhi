@@ -235,8 +235,18 @@ export const ShowcaseGallery: React.FC<ShowcaseGalleryProps> = ({
                 )}
 
                 <div className="min-w-0 flex-1">
-                  <h4 className="text-xs font-bold text-[#1A1918] truncate">
-                    {outfit.name || 'Bộ Cổ Phục'}
+                  <h4 className="text-xs font-bold text-[#1A1918] truncate flex items-center gap-1">
+                    <span>{outfit.name || 'Bộ Cổ Phục'}</span>
+                    {outfit.name === 'Song Ngư Triều Ngọc' && (
+                      <span className="text-[10px] text-[#78716C] font-normal">
+                        (Song Như)
+                      </span>
+                    )}
+                    {outfit.name === 'Hạc Nguyệt' && (
+                      <span className="text-[10px] text-[#78716C] font-normal">
+                        (Hạ Nguyệt)
+                      </span>
+                    )}
                   </h4>
                   <p className="text-[11px] text-[#78716C] truncate mt-0.5">
                     Tác giả: {outfit.creatorName || 'Người Yêu Di Sản'}
@@ -283,8 +293,18 @@ export const ShowcaseGallery: React.FC<ShowcaseGalleryProps> = ({
                 Mã: #{activeOutfit.id.slice(-6)}
               </span>
             </div>
-            <h3 className="text-2xl md:text-3xl font-normal text-[#1A1918] font-display">
-              {activeOutfit.name}
+            <h3 className="text-2xl md:text-3xl font-normal text-[#1A1918] font-display flex items-baseline gap-2 flex-wrap">
+              <span>{activeOutfit.name}</span>
+              {activeOutfit.name === 'Song Ngư Triều Ngọc' && (
+                <span className="text-base text-[#78716C] font-sans font-normal">
+                  (Song Như Triều Ngọc)
+                </span>
+              )}
+              {activeOutfit.name === 'Hạc Nguyệt' && (
+                <span className="text-base text-[#78716C] font-sans font-normal">
+                  (Hạ Nguyệt)
+                </span>
+              )}
             </h3>
             <div className="flex items-center gap-3 text-xs text-[#57534E] flex-wrap">
               <span>

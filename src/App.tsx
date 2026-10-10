@@ -52,16 +52,41 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<NavigationTab>('archive');
   const [outfits, setOutfits] = useState<CustomOutfit[]>(() => {
     const saved = readStorageArray<CustomOutfit>(STORAGE_KEY_OUTFITS);
-    return saved && saved.length > 0 ? saved : DEFAULT_OUTFITS;
+    if (saved && saved.length > 0) {
+      const map = new Map<string, CustomOutfit>();
+      DEFAULT_OUTFITS.forEach((o) => map.set(o.id, o));
+      saved.forEach((o) => {
+        const existing = map.get(o.id) || {};
+        map.set(o.id, {
+          ...existing,
+          ...o,
+          components: Array.isArray(o?.components) && o.components.length > 0 ? o.components : (existing as any).components || [],
+        });
+      });
+      return Array.from(map.values());
+    }
+    return DEFAULT_OUTFITS;
   });
   const [selectedOutfitId, setSelectedOutfitId] = useState<string | null>(null);
   const [costumes, setCostumes] = useState<CostumeItem[]>(() => {
     const saved = readStorageArray<CostumeItem>(STORAGE_KEY_COSTUMES);
-    return saved && saved.length > 0 ? saved : DEFAULT_COSTUMES;
+    if (saved && saved.length > 0) {
+      const map = new Map<string, CostumeItem>();
+      DEFAULT_COSTUMES.forEach((c) => map.set(c.id, c));
+      saved.forEach((c) => map.set(c.id, { ...map.get(c.id), ...c }));
+      return Array.from(map.values());
+    }
+    return DEFAULT_COSTUMES;
   });
   const [lookbooks, setLookbooks] = useState<LookbookItem[]>(() => {
     const saved = readStorageArray<LookbookItem>(STORAGE_KEY_LOOKBOOKS).filter((item) => !item.id.startsWith('preset_'));
-    return saved && saved.length > 0 ? saved : DEFAULT_LOOKBOOKS;
+    if (saved && saved.length > 0) {
+      const map = new Map<string, LookbookItem>();
+      DEFAULT_LOOKBOOKS.forEach((l) => map.set(l.id, l));
+      saved.forEach((l) => map.set(l.id, { ...map.get(l.id), ...l }));
+      return Array.from(map.values());
+    }
+    return DEFAULT_LOOKBOOKS;
   });
   const [wardrobeIds, setWardrobeIds] = useState<string[]>(() => readStorageArray(STORAGE_KEY_WARDROBE));
 
@@ -136,13 +161,39 @@ export default function App() {
 
     loadPersistentOutfits().then((saved) => {
       if (isMounted && Array.isArray(saved) && saved.length > 0) {
-        setOutfits((cur) => (cur.length === 0 ? saved : cur));
+        setOutfits((cur) => {
+          const map = new Map<string, CustomOutfit>();
+          DEFAULT_OUTFITS.forEach((o) => map.set(o.id, o));
+          saved.forEach((o) => {
+            const existing = map.get(o.id) || {};
+            map.set(o.id, {
+              ...existing,
+              ...o,
+              components: Array.isArray(o?.components) && o.components.length > 0 ? o.components : (existing as any).components || [],
+            });
+          });
+          cur.forEach((o) => {
+            const existing = map.get(o.id) || {};
+            map.set(o.id, {
+              ...existing,
+              ...o,
+              components: Array.isArray(o?.components) && o.components.length > 0 ? o.components : (existing as any).components || [],
+            });
+          });
+          return Array.from(map.values());
+        });
       }
     });
 
     loadPersistentCostumes().then((saved) => {
       if (isMounted && Array.isArray(saved) && saved.length > 0) {
-        setCostumes((cur) => (cur.length === 0 ? saved : cur));
+        setCostumes((cur) => {
+          const map = new Map<string, CostumeItem>();
+          DEFAULT_COSTUMES.forEach((c) => map.set(c.id, c));
+          saved.forEach((c) => map.set(c.id, { ...map.get(c.id), ...c }));
+          cur.forEach((c) => map.set(c.id, { ...map.get(c.id), ...c }));
+          return Array.from(map.values());
+        });
       }
     });
 

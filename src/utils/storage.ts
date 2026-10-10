@@ -113,10 +113,17 @@ export async function loadPersistentOutfits(): Promise<CustomOutfit[]> {
   // 1. Try IndexedDB first (stores full resolution without quota limit)
   const idbOutfits = await getAllFromStore<CustomOutfit>(STORE_OUTFITS);
   if (Array.isArray(idbOutfits) && idbOutfits.length > 0) {
-    return idbOutfits.map((o) => ({
-      ...o,
-      components: Array.isArray(o?.components) ? o.components : [],
-    }));
+    const map = new Map<string, CustomOutfit>();
+    DEFAULT_OUTFITS.forEach((o) => map.set(o.id, o));
+    idbOutfits.forEach((o) => {
+      const existing = map.get(o.id) || {};
+      map.set(o.id, {
+        ...existing,
+        ...o,
+        components: Array.isArray(o?.components) && o.components.length > 0 ? o.components : (existing as any).components || [],
+      });
+    });
+    return Array.from(map.values());
   }
 
   // 2. Fallback to LocalStorage
@@ -126,13 +133,19 @@ export async function loadPersistentOutfits(): Promise<CustomOutfit[]> {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          const safeParsed = parsed.map((o: any) => ({
-            ...o,
-            components: Array.isArray(o?.components) ? o.components : [],
-          }));
-          // Populate IndexedDB for future loads
-          saveAllToStore(STORE_OUTFITS, safeParsed);
-          return safeParsed;
+          const map = new Map<string, CustomOutfit>();
+          DEFAULT_OUTFITS.forEach((o) => map.set(o.id, o));
+          parsed.forEach((o: any) => {
+            const existing = map.get(o.id) || {};
+            map.set(o.id, {
+              ...existing,
+              ...o,
+              components: Array.isArray(o?.components) && o.components.length > 0 ? o.components : (existing as any).components || [],
+            });
+          });
+          const merged = Array.from(map.values());
+          saveAllToStore(STORE_OUTFITS, merged);
+          return merged;
         }
       }
     } catch {
@@ -165,16 +178,21 @@ export async function savePersistentOutfits(outfits: CustomOutfit[]): Promise<vo
   // 1. Save to IndexedDB (authoritative and unbounded)
   await saveAllToStore(STORE_OUTFITS, safeOutfits);
 
-  // 2. Save a safe, lightweight copy to LocalStorage without throwing QuotaExceededError
+  // 2. Save a safe copy to LocalStorage without throwing QuotaExceededError
+  const filterUrls = (urls?: string[]) =>
+    Array.isArray(urls)
+      ? urls.filter((u) => typeof u === 'string' && u.length < 100000)
+      : undefined;
+
   safeSetLocalStorage(STORAGE_KEY_OUTFITS, safeOutfits, (items) =>
     items.map((o) => ({
       ...o,
       imageUrl: o.imageUrl && o.imageUrl.length > 100000 ? undefined : o.imageUrl,
-      imageUrls: undefined,
+      imageUrls: filterUrls(o.imageUrls) || (o.imageUrl ? [o.imageUrl] : []),
       components: (Array.isArray(o?.components) ? o.components : []).map((c) => ({
         ...c,
         imageUrl: c.imageUrl && c.imageUrl.length > 100000 ? undefined : c.imageUrl,
-        imageUrls: undefined,
+        imageUrls: filterUrls(c.imageUrls) || (c.imageUrl ? [c.imageUrl] : []),
       })),
     }))
   );
@@ -185,7 +203,10 @@ export async function savePersistentOutfits(outfits: CustomOutfit[]): Promise<vo
 export async function loadPersistentCostumes(): Promise<CostumeItem[]> {
   const idbCostumes = await getAllFromStore<CostumeItem>(STORE_COSTUMES);
   if (Array.isArray(idbCostumes) && idbCostumes.length > 0) {
-    return idbCostumes;
+    const map = new Map<string, CostumeItem>();
+    DEFAULT_COSTUMES.forEach((c) => map.set(c.id, c));
+    idbCostumes.forEach((c) => map.set(c.id, { ...map.get(c.id), ...c }));
+    return Array.from(map.values());
   }
 
   if (typeof window !== 'undefined' && window.localStorage) {
@@ -194,8 +215,12 @@ export async function loadPersistentCostumes(): Promise<CostumeItem[]> {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          saveAllToStore(STORE_COSTUMES, parsed);
-          return parsed;
+          const map = new Map<string, CostumeItem>();
+          DEFAULT_COSTUMES.forEach((c) => map.set(c.id, c));
+          parsed.forEach((c: any) => map.set(c.id, { ...map.get(c.id), ...c }));
+          const merged = Array.from(map.values());
+          saveAllToStore(STORE_COSTUMES, merged);
+          return merged;
         }
       }
     } catch {
@@ -217,11 +242,16 @@ export async function savePersistentCostumes(costumes: CostumeItem[]): Promise<v
   }
   await saveAllToStore(STORE_COSTUMES, costumes);
 
+  const filterUrls = (urls?: string[]) =>
+    Array.isArray(urls)
+      ? urls.filter((u) => typeof u === 'string' && u.length < 100000)
+      : undefined;
+
   safeSetLocalStorage(STORAGE_KEY_COSTUMES, costumes, (items) =>
     items.map((c) => ({
       ...c,
       imageUrl: c.imageUrl && c.imageUrl.length > 100000 ? undefined : c.imageUrl,
-      imageUrls: undefined,
+      imageUrls: filterUrls(c.imageUrls) || (c.imageUrl ? [c.imageUrl] : []),
     }))
   );
 }
