@@ -204,20 +204,10 @@ export const ArchiveCatalog: React.FC<ArchiveCatalogProps> = ({
                   <div>
                     {/* Outfit Name */}
                     <h3
-                      className="text-base font-bold text-[#1A1918] group-hover:text-[#9E2A2B] transition-colors line-clamp-1 flex items-baseline gap-1"
+                      className="text-base font-bold text-[#1A1918] group-hover:text-[#9E2A2B] transition-colors line-clamp-1"
                       title={outfit.name || 'Bộ trang phục'}
                     >
-                      <span>{outfit.name || 'Bộ Cổ Phục'}</span>
-                      {outfit.name === 'Song Ngư Triều Ngọc' && (
-                        <span className="text-xs font-normal text-[#78716C]">
-                          (Song Như)
-                        </span>
-                      )}
-                      {outfit.name === 'Hạc Nguyệt' && (
-                        <span className="text-xs font-normal text-[#78716C]">
-                          (Hạ Nguyệt)
-                        </span>
-                      )}
+                      {outfit.name || 'Bộ Cổ Phục'}
                     </h3>
 
                     {/* Color annotation badge & Creator Name */}

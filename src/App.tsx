@@ -26,6 +26,7 @@ import {
   savePersistentOutfits,
   loadPersistentCostumes,
   savePersistentCostumes,
+  loadPersistentLookbooks,
   savePersistentLookbooks,
 } from './utils/storage';
 import { DEFAULT_OUTFITS, DEFAULT_COSTUMES, DEFAULT_LOOKBOOKS } from './data/defaultData';
@@ -192,6 +193,18 @@ export default function App() {
           DEFAULT_COSTUMES.forEach((c) => map.set(c.id, c));
           saved.forEach((c) => map.set(c.id, { ...map.get(c.id), ...c }));
           cur.forEach((c) => map.set(c.id, { ...map.get(c.id), ...c }));
+          return Array.from(map.values());
+        });
+      }
+    });
+
+    loadPersistentLookbooks().then((saved) => {
+      if (isMounted && Array.isArray(saved) && saved.length > 0) {
+        setLookbooks((cur) => {
+          const map = new Map<string, LookbookItem>();
+          DEFAULT_LOOKBOOKS.forEach((l) => map.set(l.id, l));
+          saved.forEach((l) => map.set(l.id, { ...map.get(l.id), ...l }));
+          cur.forEach((l) => map.set(l.id, { ...map.get(l.id), ...l }));
           return Array.from(map.values());
         });
       }

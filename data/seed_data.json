@@ -1156,7 +1156,7 @@
   "lookbooks": [
     {
       "id": "lookbook_1791650214987",
-      "title": "Song Ngư Triều Nguyệt",
+      "title": "Song Ngư Triều Ngọc",
       "occasion": "Tự do",
       "description": "Thiết kế tái hiện lại vẻ đẹp tao nhã với thân áo kế thừa vạt chéo nẹp thẳng mực thước từ áo Giao Lĩnh truyền thống. Tay áo mượn cảm hứng từ dáng tay buông rủ kiêu sa của áo Nhật Bình nhưng đã được cách tân thành phom suông bồng nhẹ, mang lại sự linh hoạt, cá tính cho người mặc. Đặc biệt, chính là họa tiết song ngư dựa trên điển tích \"Song Ngư Vọng Nguyệt\" hình tượng đôi cá chép mềm mại bơi ngược dòng và giao nhau tượng trưng cho sự âm dương hòa hợp. Hình ảnh \" Ngự Long\" lấy cảm hứng từ thời nhà Nguyễn, nhà Lê với mong muốn gửi gắm sự phồn vinh, thịnh vượng và sức mạnh của dân tộc.",
       "creatorName": "Queenie",
@@ -1167,7 +1167,11 @@
         "/uploads/lookbook_4e6750f86ec1.webp"
       ],
       "fullOutfitImage": "/uploads/lookbook_89a6aa05a1b7.webp",
-      "introduction": "Song Ngư Triều Ngọc ra đời như một chiếc cầu nối tinh tế giữa di sản ngàn năm và nhịp sống đô thị hiện đại. Dưới góc nhìn tối giản, nam tính và đầy chiều sâu nghệ thuật thiết kế đã biến di sản không chỉ là hoài niệm và được thấy ở mỗi dịp lễ hay trong bảo tàng mà trở thành trang phục ứng dụng mang đầy bản sắc dân tộc."
+      "introduction": "Song Ngư Triều Ngọc ra đời như một chiếc cầu nối tinh tế giữa di sản ngàn năm và nhịp sống đô thị hiện đại. Dưới góc nhìn tối giản, nam tính và đầy chiều sâu nghệ thuật thiết kế đã biến di sản không chỉ là hoài niệm và được thấy ở mỗi dịp lễ hay trong bảo tàng mà trở thành trang phục ứng dụng mang đầy bản sắc dân tộc.",
+      "outerId": "item_1791650045746_g3mna",
+      "bottomId": "item_1791650076315_bcafi",
+      "accessoryId": "item_1791650128562_fdlzm",
+      "footwearId": "item_1791650089257_94l2n"
     },
     {
       "id": "lookbook_1791649845819",
@@ -1182,7 +1186,11 @@
         "/uploads/lookbook_27547d3106e2.webp"
       ],
       "fullOutfitImage": "/uploads/lookbook_ff99522bfa49.webp",
-      "introduction": "Hạc Nguyệt thể hiện vẻ đẹp thanh lịch, trang nhã qua gam màu trắng kem và những họa tiết hoa sen, chim hạc tinh tế. Thiết kế mang hơi thở cổ điển nhưng vẫn gần gũi với thời trang hiện đại."
+      "introduction": "Hạc Nguyệt thể hiện vẻ đẹp thanh lịch, trang nhã qua gam màu trắng kem và những họa tiết hoa sen, chim hạc tinh tế. Thiết kế mang hơi thở cổ điển nhưng vẫn gần gũi với thời trang hiện đại.",
+      "outerId": "item_1791649427249_x06dc",
+      "bottomId": "item_1791649474651_73xkc",
+      "accessoryId": "item_1791649622672_jls1g",
+      "footwearId": "item_1791649516063_qq1cr"
     },
     {
       "id": "lookbook_1791647936585",
@@ -1197,7 +1205,11 @@
         "/uploads/lookbook_504ccaef1988.webp"
       ],
       "fullOutfitImage": "/uploads/lookbook_6fe23edefeeb.webp",
-      "introduction": "Sen Ngọc mang vẻ đẹp dịu dàng, trẻ trung, kết hợp hài hòa giữa nét truyền thống Á Đông và phong cách hiện đại. Sắc xanh ngọc, hồng phấn cùng họa tiết hoa sen tạo nên tổng thể thanh thoát, nữ tính và duyên dáng. Lấy cảm hứng từ hoa sen và ngọc bích, thiết kế tôn vinh vẻ đẹp thanh khiết, mềm mại của người con gái Á Đông thông qua phom dáng cách điệu, tay áo bèo nhún và phụ kiện tinh xảo."
+      "introduction": "Sen Ngọc mang vẻ đẹp dịu dàng, trẻ trung, kết hợp hài hòa giữa nét truyền thống Á Đông và phong cách hiện đại. Sắc xanh ngọc, hồng phấn cùng họa tiết hoa sen tạo nên tổng thể thanh thoát, nữ tính và duyên dáng. Lấy cảm hứng từ hoa sen và ngọc bích, thiết kế tôn vinh vẻ đẹp thanh khiết, mềm mại của người con gái Á Đông thông qua phom dáng cách điệu, tay áo bèo nhún và phụ kiện tinh xảo.",
+      "outerId": "item_1791647736820_6dlpm",
+      "bottomId": "item_1791647772489_z22gn",
+      "accessoryId": "item_1791647884211_704qa",
+      "footwearId": "item_1791647788191_o39ps"
     },
     {
       "id": "lookbook_1791647642505",
